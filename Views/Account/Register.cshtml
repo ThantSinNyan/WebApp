@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+
+<form method="post">
+    <label>Name:</label><br />
+    <input type="text" name="name" required /><br /><br />
+
+    <label>Email:</label><br />
+    <input type="email" name="email" required /><br /><br />
+
+    <label>Password:</label><br />
+    <input type="password" name="password" required minlength="4" /><br /><br />
+
+    <label>Phone:</label><br />
+    <input type="tel" name="phone" required /><br /><br />
+
+    <button type="submit">Register</button>
+</form>

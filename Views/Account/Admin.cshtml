@@ -1,0 +1,38 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h2>Admin Panel - User List</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>@user.Phone</td>
+            <td>
+                <form method="post" action="/Account/Delete">
+                    <input type="hidden" name="id" value="@user.Id" />
+                    <button type="submit">🗑️ Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<a href="/Account/Register">➕ Add New User</a>
+<br />
+<a href="/Account/Login">🔐 Go to Login</a>
