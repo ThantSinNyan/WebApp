@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "eUv3A9pYIdM=",
+  "dgSpecHash": "sR+GaJ/C97E=",
   "success": true,
   "projectFilePath": "C:\\Users\\thant\\MyProject\\WebApp\\WebApp.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\thant\\.nuget\\packages\\k4os.compression.lz4\\1.3.8\\k4os.compression.lz4.1.3.8.nupkg.sha512",
     "C:\\Users\\thant\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.8\\k4os.compression.lz4.streams.1.3.8.nupkg.sha512",
     "C:\\Users\\thant\\.nuget\\packages\\k4os.hash.xxhash\\1.0.8\\k4os.hash.xxhash.1.0.8.nupkg.sha512",
+    "C:\\Users\\thant\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\10.0.5\\microsoft.aspnetcore.authentication.google.10.0.5.nupkg.sha512",
     "C:\\Users\\thant\\.nuget\\packages\\mysql.data\\9.6.0\\mysql.data.9.6.0.nupkg.sha512",
     "C:\\Users\\thant\\.nuget\\packages\\system.configuration.configurationmanager\\8.0.0\\system.configuration.configurationmanager.8.0.0.nupkg.sha512",
     "C:\\Users\\thant\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",

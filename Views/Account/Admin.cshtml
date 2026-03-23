@@ -2,37 +2,120 @@
 
 @{
     ViewData["Title"] = "Admin Panel";
+    var userRole = ViewBag.UserRole as string;
+    bool canEdit = userRole == "CEO" || userRole == "CTO" || userRole == "Developer";
 }
 
-<h2>Admin Panel - User List</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f0f2f5; padding: 40px; }
+        .container { max-width: 1100px; margin: 0 auto; background-color: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 30px; }
+        h2 { color: #333; margin-bottom: 24px; font-size: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background-color: #1a73e8; color: white; padding: 12px 16px; text-align: left; font-size: 14px; }
+        td { padding: 12px 16px; border-bottom: 1px solid #f0f2f5; font-size: 14px; color: #444; }
+        tr:hover { background-color: #f8f9ff; }
+        .badge-phone { background-color: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
+        .badge-nophone { background-color: #fce4ec; color: #c62828; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
+        .badge-role { background-color: #e3f2fd; color: #1565c0; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .badge-norole { background-color: #f5f5f5; color: #999; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+        .btn-delete { background-color: #e53935; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .btn-delete:hover { background-color: #b71c1c; }
+        .btn-edit { background-color: #f57c00; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-block; }
+        .btn-edit:hover { background-color: #e65100; }
+        .action-group { display: flex; gap: 6px; }
+        .actions { display: flex; gap: 12px; margin-top: 24px; align-items: center; }
+        .btn-add { background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+        .btn-add:hover { background-color: #388e3c; }
+        .btn-logout { background-color: #757575; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-size: 14px; cursor: pointer; }
+        .btn-logout:hover { background-color: #424242; }
+        .total { font-size: 13px; color: #888; margin-bottom: 16px; }
+        .welcome { font-size: 14px; color: #555; margin-bottom: 16px; }
+        .role-badge { background-color: #fff3e0; color: #e65100; padding: 3px 8px; border-radius: 8px; font-size: 12px; font-weight: bold; margin-left: 8px; }
+        .no-access { color: #bbb; font-size: 12px; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>👥 Admin Panel — User List</h2>
 
-<table border="1" cellpadding="8">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Action</th>
-    </tr>
+        @if (ViewBag.LoggedInUser != null)
+        {
+            <p class="welcome">
+                👋 Welcome, <strong>@ViewBag.LoggedInUser</strong>
+                <span class="role-badge">@userRole</span>
+            </p>
+        }
 
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.Id</td>
-            <td>@user.Name</td>
-            <td>@user.Email</td>
-            <td>@user.Phone</td>
-            <td>
-                <form method="post" action="/Account/Delete">
-                    <input type="hidden" name="id" value="@user.Id" />
-                    <button type="submit">🗑️ Delete</button>
-                </form>
-            </td>
-        </tr>
-    }
-</table>
+        <p class="total">Total users: @Model.Count()</p>
 
-<br />
-<a href="/Account/Register">➕ Add New User</a>
-<br />
-<a href="/Account/Login">🔐 Go to Login</a>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @if (user.Phone != null && user.Phone.ToString() != "")
+                        {
+                            <span class="badge-phone">@user.Phone</span>
+                        }
+                        else
+                        {
+                            <span class="badge-nophone">No phone</span>
+                        }
+                    </td>
+                    <td>
+                        @if (user.Role != null && user.Role.ToString() != "")
+                        {
+                            <span class="badge-role">@user.Role</span>
+                        }
+                        else
+                        {
+                            <span class="badge-norole">No role</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="action-group">
+                            @if (canEdit)
+                            {
+                                <a href="/Account/Edit/@user.Id" class="btn-edit">✏️ Edit</a>
+                                <form method="post" action="/Account/Delete">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn-delete">🗑 Delete</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="no-access">👁 View only</span>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="actions">
+            @if (canEdit)
+            {
+                <a href="/Account/Register" class="btn-add">➕ Add New User</a>
+            }
+            <form method="post" action="/Account/Logout">
+                <button type="submit" class="btn-logout">🚪 Logout</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

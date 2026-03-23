@@ -2,25 +2,71 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>Register</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .register-box { background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 400px; }
+        h2 { text-align: center; margin-bottom: 24px; color: #333; }
+        label { font-size: 14px; color: #555; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; margin: 6px 0 16px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        select { background-color: white; cursor: pointer; }
+        .btn-register { width: 100%; padding: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        .btn-register:hover { background-color: #45a049; }
+        .btn-google { width: 100%; padding: 12px; background-color: white; color: #555; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 12px; }
+        .btn-google:hover { background-color: #f5f5f5; }
+        .divider { text-align: center; margin: 16px 0; color: #aaa; font-size: 14px; }
+        .message { text-align: center; color: green; font-weight: bold; margin-bottom: 12px; }
+        .login-link { text-align: center; margin-top: 16px; font-size: 14px; color: #555; }
+        .login-link a { color: #4CAF50; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <h2>📋 Create Account</h2>
+        @if (ViewBag.Message != null)
+        {
+            <p class="message">@ViewBag.Message</p>
+        }
+        <form method="post">
+            <label>Full Name:</label>
+            <input type="text" name="name" placeholder="Enter your full name" required />
 
-@if (ViewBag.Message != null)
-{
-    <p>@ViewBag.Message</p>
-}
+            <label>Email:</label>
+            <input type="email" name="email" placeholder="Enter your email" required />
 
-<form method="post">
-    <label>Name:</label><br />
-    <input type="text" name="name" required /><br /><br />
+            <label>Password:</label>
+            <input type="password" name="password" placeholder="Enter your password" required minlength="4" />
 
-    <label>Email:</label><br />
-    <input type="email" name="email" required /><br /><br />
+            <label>Phone:</label>
+            <input type="tel" name="phone" placeholder="Enter your phone number" required />
 
-    <label>Password:</label><br />
-    <input type="password" name="password" required minlength="4" /><br /><br />
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="">-- Select Role --</option>
+                <option value="CEO">CEO</option>
+                <option value="CTO">CTO</option>
+                <option value="Manager">Manager</option>
+                <option value="HR">HR</option>
+                <option value="Graphic Designer">Graphic Designer</option>
+                <option value="Warehouse">Warehouse</option>
+                <option value="Personal Assistant">Personal Assistant</option>
+                <option value="Developer">Developer</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Sales">Sales</option>
+            </select>
 
-    <label>Phone:</label><br />
-    <input type="tel" name="phone" required /><br /><br />
-
-    <button type="submit">Register</button>
-</form>
+            <button type="submit" class="btn-register">✅ Register</button>
+        </form>
+        <div class="divider">— or —</div>
+        <a href="/Account/GoogleLogin" style="text-decoration: none;">
+            <button class="btn-google">🔵 Sign up with Google</button>
+        </a>
+        <div class="login-link">
+            Already have an account? <a href="/Account/Login">Login here</a>
+        </div>
+    </div>
+</body>
+</html>

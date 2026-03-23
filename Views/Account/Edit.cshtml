@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .edit-box { background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 400px; }
+        h2 { text-align: center; margin-bottom: 24px; color: #333; }
+        label { font-size: 14px; color: #555; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; margin: 6px 0 16px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        select { background-color: white; cursor: pointer; }
+        .btn-save { width: 100%; padding: 12px; background-color: #f57c00; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        .btn-save:hover { background-color: #e65100; }
+        .btn-back { display: block; text-align: center; margin-top: 12px; color: #1a73e8; text-decoration: none; font-size: 14px; }
+        .message { text-align: center; color: green; font-weight: bold; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <div class="edit-box">
+        <h2>✏️ Edit User</h2>
+
+        @if (ViewBag.Message != null)
+        {
+            <p class="message">@ViewBag.Message</p>
+        }
+
+        <form method="post">
+            <input type="hidden" name="id" value="@ViewBag.Id" />
+
+            <label>Name:</label>
+            <input type="text" name="name" value="@ViewBag.Name" required />
+
+            <label>Email:</label>
+            <input type="email" name="email" value="@ViewBag.Email" required />
+
+            <label>Phone:</label>
+            <input type="tel" name="phone" value="@ViewBag.Phone" />
+
+            <label>Role:</label>
+            <select name="role">
+                @{
+                    var roles = new[] { "CEO", "CTO", "Manager", "HR", "Graphic Designer", "Warehouse", "Personal Assistant", "Developer", "Accountant", "Sales" };
+                    foreach (var r in roles)
+                    {
+                        if (ViewBag.Role == r)
+                        {
+                            <option value="@r" selected>@r</option>
+                        }
+                        else
+                        {
+                            <option value="@r">@r</option>
+                        }
+                    }
+                }
+            </select>
+
+            <button type="submit" class="btn-save">💾 Save Changes</button>
+        </form>
+
+        <a href="/Account/Admin" class="btn-back">← Back to Admin</a>
+    </div>
+</body>
+</html>
