@@ -6,6 +6,8 @@ namespace WebApp.Controllers
 {
     public class AccountController : Controller
     {
+        private string connStr = "server=caboose.proxy.rlwy.net;user=root;password=FRgySdmvWcvNFOpydgwteDcFOiUebVXx;database=railway;port=15516";
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -16,8 +18,6 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
-
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
                 conn.Open();
@@ -53,8 +53,6 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Register(string email, string password, string name, string phone, string role)
         {
-            string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
-
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
                 conn.Open();
@@ -81,7 +79,6 @@ namespace WebApp.Controllers
                 return RedirectToAction("Login");
             }
 
-            string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
             var users = new List<dynamic>();
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -117,8 +114,6 @@ namespace WebApp.Controllers
                 return RedirectToAction("Login");
             }
 
-            string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
-
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
                 conn.Open();
@@ -144,8 +139,6 @@ namespace WebApp.Controllers
             {
                 return RedirectToAction("Admin");
             }
-
-            string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
@@ -182,8 +175,6 @@ namespace WebApp.Controllers
                 return RedirectToAction("Admin");
             }
 
-            string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
-
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
                 conn.Open();
@@ -212,7 +203,7 @@ namespace WebApp.Controllers
             if (string.IsNullOrWhiteSpace(HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Google:ClientId"]) ||
                 string.IsNullOrWhiteSpace(HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Google:ClientSecret"]))
             {
-                TempData["Message"] = "Google login is not configured yet. Add Google ClientId and ClientSecret first.";
+                TempData["Message"] = "Google login is not configured yet.";
                 return RedirectToAction("Login");
             }
 
@@ -242,7 +233,6 @@ namespace WebApp.Controllers
                     return View("Login");
                 }
 
-                string connStr = "server=localhost;user=root;password=tsn2822003;database=company_db";
                 string userDbRole = "";
 
                 using (MySqlConnection conn = new MySqlConnection(connStr))
