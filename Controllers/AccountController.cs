@@ -9,6 +9,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewBag.Message = TempData["Message"];
             return View();
         }
 
@@ -45,6 +46,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            ViewBag.Message = TempData["Message"];
             return View();
         }
 
@@ -207,6 +209,13 @@ namespace WebApp.Controllers
 
         public IActionResult GoogleLogin()
         {
+            if (string.IsNullOrWhiteSpace(HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Google:ClientId"]) ||
+                string.IsNullOrWhiteSpace(HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Google:ClientSecret"]))
+            {
+                TempData["Message"] = "Google login is not configured yet. Add Google ClientId and ClientSecret first.";
+                return RedirectToAction("Login");
+            }
+
             var properties = new AuthenticationProperties
             {
                 RedirectUri = "/Account/GoogleCallback"

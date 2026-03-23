@@ -1,19 +1,26 @@
 var builder = WebApplication.CreateBuilder(args);
+var googleClientId = builder.Configuration["Google:ClientId"];
+var googleClientSecret = builder.Configuration["Google:ClientSecret"];
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication(options =>
+var authenticationBuilder = builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = "Cookies";
 })
-.AddCookie("Cookies")
-.AddGoogle(options =>
+.AddCookie("Cookies");
+
+if (!string.IsNullOrWhiteSpace(googleClientId) &&
+    !string.IsNullOrWhiteSpace(googleClientSecret))
 {
-    options.ClientId = builder.Configuration["Google:ClientId"];
-    options.ClientSecret = builder.Configuration["Google:ClientSecret"];
-});
+    authenticationBuilder.AddGoogle(options =>
+    {
+        options.ClientId = googleClientId;
+        options.ClientSecret = googleClientSecret;
+    });
+}
 
 var app = builder.Build();
 
@@ -28,15 +35,3 @@ app.MapControllerRoute(
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
-```
-
-**Step 3 — Add `.gitignore` to hide `appsettings.json`:**
-```
-echo "appsettings.json" >> .gitignore
-```
-
-**Step 4 — Push again:**
-```
-git add .
-git commit -m "hide secrets in config"
-git push
